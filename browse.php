@@ -3,50 +3,60 @@ if (`pidof mplayer`) {
 	header('Location: controls.php');
 	exit();
 }
-?>
-<!DOCTYPE html>
-<title>Media Centre PRO 3000 Extreme Edition</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<link rel="stylesheet" href="style.css">
 
-<?php
-$_GET['b'] = '/' . trim($_GET['b'], '/') . '/';
-$_GET['p'] = trim($_GET['p'], '/');
+$viddir = '/' . trim($_GET['dir'], '/');
+// print("viddir =" . $viddir);
 
-$bb = urlencode($_GET['b']);
-$files = glob($_GET['b'] . $_GET['p'] . '/*');
+echo '<!DOCTYPE html>';
+echo '<title>' . basename($viddir) . '</title>';
+echo '<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">';
+echo '<link rel="stylesheet" href="style.css">';
+echo '</head>';
+echo '<body>';
+echo '<h1>' . basename($viddir) . '</h1>';
 
-$ff = array();
-$dd = array();
+if (! $viddir) {
+    echo "Nothing found";
+    return;
+}
+
+$files = array();
+$dirs = array();
+
+// glob() gives full pathnames
+foreach (glob($viddir . '/*') as $f) {
+    if (is_file($f)) {
+        array_push($files, $f);
+    } else {
+        array_push($dirs, $f);
+    }
+}
+
+asort($files);
+asort($dirs);
+
+echo '<ul>';
+echo "<li><a href=\"index.php\">Main Menu</a>";
+
+$p = explode('/', $viddir);
+array_pop($p);
+$s = urlencode(implode('/', $p));
+echo "<li><a href=\"browse.php?dir={$s}\">Up One Level</a><br />";
+
+foreach ($dirs as $d) {
+    $bn = basename($d);
+    $encoded = urlencode(trim("$d"));
+    echo "<li><a href=\"browse.php?dir={$encoded}\">{$bn}</a>";
+}
+
 foreach ($files as $f) {
-	if ($f[0] == '.') continue;
-	
-	$bn = basename($f);
-	$uf = urlencode(trim(str_replace($_GET['b'], '', $f), '/'));
-	
-	if (is_file($f)) {
-		$ff[$uf] = $bn;
-	} else {
-		$dd[$uf] = $bn;
-	}
+    $bn = basename($f);
+    $encoded = urlencode(trim("$f"));
+    echo "<li><a href=\"play.php?file={$encoded}\">{$bn}</a>";
 }
 
-asort($ff);
-asort($dd);
+?>
 
-echo "<a href=\"index.php\">Main Menu</a>";
-
-if ($_GET['p']) {
-	$p = explode('/', $_GET['p']);
-	array_pop($p);
-	$s = urlencode(implode('/', $p));
-	echo "<a href=\"browse.php?b={$bb}&p={$s}\">Up One Level</a>";
-}
-
-foreach ($dd as $uf => $bn) {
-	echo "<a href=\"browse.php?b={$bb}&p={$uf}\">{$bn}</a>";
-}
-
-foreach ($ff as $uf => $bn) {
-	echo "<a href=\"play.php?p={$bb}{$uf}\">{$bn}</a>";
-}
+</ul>
+</body>
+</html>
