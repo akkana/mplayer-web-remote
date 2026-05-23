@@ -2,33 +2,26 @@
 body {
     font-family: sans-serif;
     line-height: 2em;
+    background: white;
 }
 
 table.controls {
     width: 90%; table-layout: fixed;
-    td { background: #eee; text-align: center; height: 5em; }
-}
-
-a.unibutton {
-    font-size: 3em;
+    td { font-size: 2em; background: #eee; text-align: center; height: 3em; }
+    tr.spacer td { background: white !important; }
 }
 
 a.browse {
     font-size: 2em;
 }
 
-a.old {
-    display: block;
-    text-decoration: none;
-    color: #333;
-    background: #f1f1f1;
-    background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5));
-    background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
-    background: -o-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
-    background: -ms-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
-    background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
-    border-bottom: 1px #ccc solid;
-    padding: 1em;
-    text-align: center;
+button { border: 0; }
+
+.dialog {
+    font-size: 2em;
+    /* I don't know why button font size doesn't inherit.
+       And making it 2em makes it much bigger than the size of the
+       link next to it.
+     */
+    button { font-size: 1.5em; }
 }

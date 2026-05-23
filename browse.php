@@ -36,12 +36,6 @@ asort($files);
 asort($dirs);
 
 echo '<ul>';
-echo "<li><a href=\"index.php\">Main Menu</a>";
-
-$p = explode('/', $viddir);
-array_pop($p);
-$s = urlencode(implode('/', $p));
-echo "<li><a href=\"browse.php?dir={$s}\">Up One Level</a><br />";
 
 foreach ($dirs as $d) {
     $bn = basename($d);
@@ -54,6 +48,13 @@ foreach ($files as $f) {
     $encoded = urlencode(trim("$f"));
     echo "<li><a href=\"play.php?file={$encoded}\">{$bn}</a>";
 }
+
+$p = explode('/', $viddir);
+array_pop($p);
+$s = urlencode(implode('/', $p));
+echo "<li><a href=\"browse.php?dir={$s}\">Up One Level</a><br />";
+
+echo "<li><a href=\"index.php\">Main Menu</a>";
 
 ?>
 
