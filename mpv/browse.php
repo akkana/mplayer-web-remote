@@ -12,13 +12,15 @@ try {
     $filename = null;
 }
 
+$title = 'Media Centre PRO 4000 Extreme Edition: ' . basename($viddir);
+
 echo '<!DOCTYPE html>';
-echo '<title>' . basename($viddir) . '</title>';
+echo "<title>{$title}</title>";
 echo '<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">';
 echo '<link rel="stylesheet" href="style.css">';
 echo '</head>';
 echo '<body>';
-echo '<h1>' . basename($viddir) . '</h1>';
+echo "<h1>{$title}</h1>";
 
 if (! $viddir) {
     echo "Nothing found";

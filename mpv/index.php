@@ -9,16 +9,18 @@ try {
 } catch (Exception $e) {
     $mediadir = [];
 }
+
+$title = 'Media Centre PRO 4000 Extreme Edition';   // silly title
 ?>
 
 <!DOCTYPE html>
 <head>
-<title>Media Centre PRO 3000 Extreme Edition</title>
+<title><?php echo $title; ?></title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Media Centre PRO 3000 Extreme Edition</h1>
+<h1><?php echo $title; ?></h1>
 
 <ul>
 <?php

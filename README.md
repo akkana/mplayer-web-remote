@@ -13,7 +13,7 @@ from the directory containing the PHP files.
 
 I don't suggest you run this on a public server, for (hopefully) obvious reasons.
 
-Original proof of concept by Josh Heidenreich (TheJosh's) for mplayer,
+Original proof of concept by Josh Heidenreich (TheJosh) for mplayer,
 heavily modified and switched to use mpv by Akkana Peck
 because mpv has more consistent commands and, most importantly,
 can remember its position in files. TheJosh's version didn't quite

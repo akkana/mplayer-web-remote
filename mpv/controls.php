@@ -40,6 +40,7 @@ if (isset($_GET['action'])) {
 
         case 'play':
             send_mpv_cmd('{ "command": ["set_property", "pause", false] }');
+            $paused = 0;
             break;
 
         case 'back':
@@ -91,9 +92,14 @@ if (isset($_GET['action'])) {
             $filepath = send_mpv_cmd('{ "command": ["get_property", "path"] }\n');
             error_log("filepath: " . $filepath);
 
-            //send_mpv_cmd("quit");
-            //shell_exec('rm ' . $filepath);
-            $message = 'Would delete ' . $filepath;
+            send_mpv_cmd('{ "command": ["set_property", "pause", true] }');
+            $paused = 1;
+
+            shell_exec('rm ' . $filepath);
+            //$message = 'Deleted ' . $filepath;
+            $encoded = urlencode(dirname("$filepath"));
+            sleep(1);
+            header("Location: browse.php?dir={$encoded}");
             break;
 
         case 'poweroff':
@@ -103,12 +109,14 @@ if (isset($_GET['action'])) {
     }
 }
 
+$title = 'Media Centre PRO 4000 Extreme Edition';
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Media Centre PRO 4000 Extreme Edition</title>
+<title><?php echo $title; ?></title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -116,7 +124,7 @@ if (isset($_GET['action'])) {
 
 <center>
 
-<h1>Media Centre PRO 3000 Extreme Edition</h1>
+<h1><?php echo $title; ?></h1>
 
 <table class="controls">
 <tr>
