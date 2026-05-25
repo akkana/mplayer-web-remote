@@ -1,15 +1,10 @@
 <?php
 
-/*
-*/
 if (! `pidof mplayer`) {
     shell_exec('rm /tmp/mplayer-fifo');
     header('Location: index.php');
     exit();
 }
-
-# No way to know if it's paused, if ...XXX
-$paused = 0;
 
 $message = '&nbsp;';
 
@@ -55,10 +50,18 @@ function read_mp_val($prop_cmd) {
     $equals = strpos($result, '=');
     if ($equals) {
         $result = substr($result, $equals+1);
-        error_log('Stripped equals: ' . $result, 0);
+        error_log('After equals: ' . $result, 0);
     }
     return $result;
 }
+
+# Get paused state, since this affects lots of other things,
+# like which commands might unwantedly un-pause.
+$paused = (read_mp_val("pausing_keep_force get_property pause") == 'yes');
+if ($paused)
+    error_log('Paused', 0);
+else
+    error_log('NOT Paused', 0);
 
 if (isset($_GET['action'])) {
     // http://www.mplayerhq.hu/DOCS/tech/slave.txt
