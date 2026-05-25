@@ -24,3 +24,13 @@ Create a file named mp-remote.ini in the same directory as the
 rest of these files, containing one line:
 
 mediadir = /path/to/video/files
+
+Make a symbolic link in the directory you're using (mpv or mplayer)
+to ../images, e.g.
+cd mpv; ln -s ../images .
+
+Then run the remote control as:
+    php -S localhost:8000
+from the directory with the index.php file (mplayer or mpv).
+It needs to be run as the user who owns the X session,
+and who also has permissions for things like audio.
