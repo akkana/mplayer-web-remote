@@ -27,3 +27,8 @@ button { border: 0; }
 }
 
 .farright { float: right; }
+
+/* Hide the positionSlider by default, and enable it with JS,
+ * since it's misleading when it can't be regularly updated.
+ */
+tr.positionSlider { display: none; }

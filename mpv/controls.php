@@ -21,6 +21,9 @@ else
 $curvol = send_mpv_cmd('{ "command": ["get_property", "volume"] }\n');
 error_log('Volume ' . $curvol, 0);
 
+$curpos = send_mpv_cmd('{ "command": ["get_property", "percent-pos"] }\n');
+error_log('Percent position ' . $curpos, 0);
+
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'pause':
@@ -136,9 +139,11 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
     <img src="images/skip-forward.svg" width="64" height="64" alt="Forward"></a>
 </tr>
 
+<tr colspan="3" class="positionSlider">
 <td colspan="3">
     <input type="range" id="positionSlider" name="positionSlider"
-           min="0" max="100" style="width: 85%" />
+           min="0" max="100" value="<?php echo $curpos ?>"
+           disabled style="width: 85%" />
 
 <tr class="spacer"><td>&nbsp;
 
@@ -156,7 +161,7 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
 <tr>
 <td colspan="3">
     <input type="range" id="volumeSlider" name="volumeSlider" min="0" max="100"
-           value="<?php echo $curvol; ?>" style="width: 85%" />
+           value="<?php echo $curvol; ?>" disabled style="width: 85%" />
 
 </tr>
 
@@ -240,6 +245,19 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
       xhr.open("GET", "simplecommands.php?property=percent-pos", true);
       xhr.send();
   }
+
+  // Enable the two sliders through JS, since they don't work in
+  // non-JS browsers.
+  volumeSlider.disabled = false;
+  positionSlider.disabled = false;
+  // Set the containing tr, the slider's grandparent, to visible
+  positionSlider.parentElement.parentElement.style.display = 'table-row';
+  //alert("set positionSlider.parentElement.parentElement.display to table-row:"
+  //      + positionSlider.parentElement.parentElement.display);
+
+  // Update the position slider regularly, so it keeps track as
+  // the video plays. Not so important for the volume slider since
+  // it will be updated if the user clicks the volume up/down buttons.
   setInterval(updatePositionSlider, 4000);
 
 </script>
