@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Icon: folder-open-1
+  Set: TDesign Icons
+  Author: TDesign (https://github.com/Tencent/tdesign-icons)
+  License: MIT (https://github.com/Tencent/tdesign-icons/blob/main/LICENSE)
+  Source: https://iconify.design
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 24 24"
+     width="24"
+     height="24">
+  <title>Folder Icon for File Management</title>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:dc="http://purl.org/dc/elements/1.1/"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="">
+        <dc:title>Folder Icon for File Management</dc:title>
+        <dc:description>Simple black folder icon representing file storage, organization, or document management. Ideal for use in apps, websites, or presentations related to data organization.</dc:description>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>TDesign</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:source>https://github.com/Tencent/tdesign-icons</dc:source>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>TDesign</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <cc:license rdf:resource="https://github.com/Tencent/tdesign-icons/blob/main/LICENSE"/>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>folder</rdf:li>
+            <rdf:li>file</rdf:li>
+            <rdf:li>document</rdf:li>
+            <rdf:li>storage</rdf:li>
+            <rdf:li>organization</rdf:li>
+            <rdf:li>file-management</rdf:li>
+            <rdf:li>archive</rdf:li>
+            <rdf:li>directory</rdf:li>
+            <rdf:li>data</rdf:li>
+            <rdf:li>digital-folder</rdf:li>
+            <rdf:li>black-folder</rdf:li>
+            <rdf:li>file-storage</rdf:li>
+            <rdf:li>file-icon</rdf:li>
+            <rdf:li>folder-symbol</rdf:li>
+            <rdf:li>document-icon</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="https://github.com/Tencent/tdesign-icons/blob/main/LICENSE">
+        <dc:title>MIT (MIT)</dc:title>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g fill="none"><path d="M1 3.5V20l3-10h15.5V6H10L7 3.5z"/><path d="M1 20h18.5l3-10H4z"/><path stroke="currentColor" stroke-linecap="square" stroke-width="2" d="M1 20h18.5l3-10H4zm0 0V3.5h6L10 6h9.5v4"/></g>
+</svg>

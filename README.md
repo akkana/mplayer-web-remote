@@ -8,7 +8,9 @@ player with your mobile phone.
 
 You need to run as the user that's logged in to X.
 For instance, you can run
+```
 php -S localhost:8000
+```
 from the directory containing the PHP files.
 
 I don't suggest you run this on a public server, for (hopefully) obvious reasons.
@@ -23,14 +25,26 @@ a subdirectory mplayer when I changed gears to work on the mpv version.
 Create a file named mp-remote.ini in the same directory as the
 rest of these files, containing one line:
 
+```
 mediadir = /path/to/video/files
+```
 
 Make a symbolic link in the directory you're using (mpv or mplayer)
 to ../images, e.g.
+```
 cd mpv; ln -s ../images .
+```
 
-Then run the remote control as:
+Then, from the directory with the index.php file (mplayer or mpv),
+run the remote control as:
+```
     php -S localhost:8000
-from the directory with the index.php file (mplayer or mpv).
+```
+to test locally, or
+```
+    php -S [hostname-or-IP-addr]:8000
+```
+if you want it accessible to other machines, like a phone.
+
 It needs to be run as the user who owns the X session,
 and who also has permissions for things like audio.

@@ -5,6 +5,7 @@ $viddir = '/' . trim($_GET['dir'], '/');
 
 require 'commands.php';
 
+// Find out what's currently playing, if anything
 try {
     $filename = send_mpv_cmd('{ "command": ["get_property", "path"] }\n');
     $filename = basename($filename);

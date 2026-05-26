@@ -103,8 +103,7 @@ if (isset($_GET['action'])) {
             break;
 
         case 'poweroff':
-            // shell_exec('sudo poweroff');
-            $message = "Poweroff disabled during testing";
+            shell_exec('sudo poweroff');
             break;
     }
 }
@@ -150,30 +149,36 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
 <td><a href="?action=volumedown">
     <img src="images/volume-down.svg"
          width="64" height="64" alt="Volume down"></a></td>
+<td><button command="show-modal" commandfor="delete-dialog">
+    <img src="images/trash.svg" width="64" height="64" alt="Delete">
 <td><a href="?action=volumeup">
     <img src="images/volume-up.svg"
          width="64" height="64" alt="Volume down"></a></td>
-
-<td>
-
-<button command="show-modal" commandfor="delete-dialog">
-<img src="images/trash.svg" width="64" height="64" alt="Delete">
 </button>
+
+<tr>
+<td colspan="3">
+    <input type="range" id="volumeSlider" name="volumeSlider" min="0" max="100"
+           value="<?php echo $curvol; ?>" style="width: 85%"
+           onchange="changeVolume();" />
 
 </tr>
 
 <tr class="spacer"><td>&nbsp;
 
 <tr>
-<td><a href="index.php">Browse</a>
+<td><a href="index.php"><img src="images/browse.svg"
+         width="64" height="64" alt="Browse"></a>
+<td>
+<td><button command="show-modal" commandfor="poweroff-dialog">
+    <img src="images/power.svg" width="64" height="64" alt="Power button">
+</button>
+
+<!--
 <td><a href="?action=aspect">Aspect</a>
 <td><a href="?action=status">Get status</a>
-
-<tr>
 <td><a href="?action=close">Quit</a>
-<td><button command="show-modal" commandfor="poweroff-dialog">
-<img src="images/power.svg" width="64" height="64" alt="Power button">
-</button>
+ -->
 
 </table>
 
@@ -202,6 +207,28 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
 </dialog>
 
 </center>
+
+<script language="JavaScript">
+  var volumeSlider = document.getElementById("volumeSlider");
+  volumeSlider.onchange = function() {
+      // Writing to a file is hard from JS (maybe impossible?)
+      // because of security concerns. But it can load a PHP URL
+      // that can do things like write a command to the mpv player.
+      // (e || window.event).preventDefault();
+
+      var statdiv = document.getElementById("status");
+      statdiv.innerHTML = "Setting volume to " + this.value;
+
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(e) {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              statdiv.innerHTML = xhr.responseText;
+          }
+      };
+      xhr.open("GET", "simplecommands.php?cmd=volume&val=" + this.value, true);
+      xhr.send();
+  }
+</script>
 </body>
 </html>
 

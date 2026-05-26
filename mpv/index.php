@@ -1,14 +1,19 @@
 <?php
 
 try {
-    $config = parse_ini_file(getcwd() . '/mp-remote.ini');
+    if (file_exists(getcwd() . '/mp-remote.ini'))
+        $config = parse_ini_file(getcwd() . '/.config/mp-remote.ini');
+    else if (file_exists(getenv('HOME') . '/.config/mp-remote.ini'))
+        $config = parse_ini_file(getenv('HOME') . '/.config//mp-remote.ini');
     //echo "Read from config file:";
     //print_r($config);
-
     $mediadir = $config['mediadir'];
+
 } catch (Exception $e) {
     $mediadir = [];
 }
+
+error_log("Media Dir: " . $mediadir, 0);
 
 $title = 'Media Centre PRO 4000 Extreme Edition';   // silly title
 ?>
@@ -24,7 +29,6 @@ $title = 'Media Centre PRO 4000 Extreme Edition';   // silly title
 
 <ul>
 <?php
-
 if ($mediadir) {
     foreach (glob($config['mediadir'] . '/*') as $f) {
         echo '<li><a href="browse.php?dir=' . $f . '">' . basename($f) . '</a>';
