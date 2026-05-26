@@ -69,5 +69,8 @@ echo "<li><a href=\"index.php\">Main Menu</a>";
 ?>
 
 </ul>
+
+<?php require 'footer.php'; ?>
+
 </body>
 </html>

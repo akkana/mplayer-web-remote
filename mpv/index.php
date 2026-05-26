@@ -31,11 +31,15 @@ $title = 'Media Centre PRO 4000 Extreme Edition';   // silly title
 <?php
 if ($mediadir) {
     foreach (glob($config['mediadir'] . '/*') as $f) {
-        echo '<li><a href="browse.php?dir=' . $f . '">' . basename($f) . '</a>';
+        echo '<li><a href="browse.php?dir=' . $f . '">' . basename($f) . '</a>'
+             . PHP_EOL;
     }
 } else {
     echo "You must specify mediadir = &lt;some path&gt; in mp-remote.ini";
 }
+
+echo '</ul>' . PHP_EOL . PHP_EOL;
+
+include 'footer.php';
 ?>
 
-</ul>

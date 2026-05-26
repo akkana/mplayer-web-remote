@@ -25,3 +25,5 @@ button { border: 0; }
      */
     button { font-size: 1.5em; }
 }
+
+.farright { float: right; }

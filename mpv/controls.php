@@ -22,16 +22,6 @@ $curvol = send_mpv_cmd('{ "command": ["get_property", "volume"] }\n');
 error_log('Volume ' . $curvol, 0);
 
 if (isset($_GET['action'])) {
-    // http://www.mplayerhq.hu/DOCS/tech/slave.txt
-    // also, mplayer -input cmdlist
-    // prefixes:
-    //   pausing: pause ASAP after processing the command
-    //   pausing_keep: do command only if already paused;
-    //   pausing_toggle: do command only if not already paused.
-    // but none of these actually work for "pause",
-    // it toggles regardless of whether it's prefixed with pausing_keep
-    // or pausing_toggle.
-
     switch ($_GET['action']) {
         case 'pause':
             send_mpv_cmd('{ "command": ["set_property", "pause", true] }');
@@ -83,9 +73,6 @@ if (isset($_GET['action'])) {
         case 'status':
             $message = shell_exec('sh ./mpvstatus.sh');
 
-        case 'close':
-            break;
-
         case 'reallydelete':
             // sadly, pausing_keep_force doesn't work with get_property filename
             // or path: it doesn't print anything
@@ -103,7 +90,13 @@ if (isset($_GET['action'])) {
             break;
 
         case 'poweroff':
-            shell_exec('sudo poweroff');
+            send_mpv_cmd('{ "command": [ "quit" ] }');
+            shell_exec('sleep 3; sudo poweroff');
+            // Redirect to a page with few images.
+            // For some reason, on Android DDG,
+            // images disappear after the host shuts down
+            // but the rest of the page still displays fine.
+            header("Location: index.php");
             break;
     }
 }
@@ -143,6 +136,10 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
     <img src="images/skip-forward.svg" width="64" height="64" alt="Forward"></a>
 </tr>
 
+<td colspan="3">
+    <input type="range" id="positionSlider" name="positionSlider"
+           min="0" max="100" style="width: 85%" />
+
 <tr class="spacer"><td>&nbsp;
 
 <tr>
@@ -159,28 +156,19 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
 <tr>
 <td colspan="3">
     <input type="range" id="volumeSlider" name="volumeSlider" min="0" max="100"
-           value="<?php echo $curvol; ?>" style="width: 85%"
-           onchange="changeVolume();" />
+           value="<?php echo $curvol; ?>" style="width: 85%" />
 
 </tr>
 
-<tr class="spacer"><td>&nbsp;
+<tr class="spacer"><td>&nbsp;</td></tr>
 
-<tr>
-<td><a href="index.php"><img src="images/browse.svg"
-         width="64" height="64" alt="Browse"></a>
-<td>
-<td><button command="show-modal" commandfor="poweroff-dialog">
-    <img src="images/power.svg" width="64" height="64" alt="Power button">
-</button>
+</table>
 
 <!--
 <td><a href="?action=aspect">Aspect</a>
 <td><a href="?action=status">Get status</a>
 <td><a href="?action=close">Quit</a>
  -->
-
-</table>
 
 <div id="status">
 <?php echo $message; ?>
@@ -194,16 +182,6 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
 
   &nbsp; &nbsp; &nbsp; &nbsp;
   <button commandfor="delete-dialog" command="close">No</button>
-</dialog>
-
-<dialog id="poweroff-dialog"class="dialog">
-  <p>Really power off?
-
-  &nbsp; &nbsp; &nbsp; &nbsp;
-  <a href="?action=poweroff"><button commandfor="poweroff-dialog" command="close">Yes</button></a>
-
-  &nbsp; &nbsp; &nbsp; &nbsp;
-  <button commandfor="poweroff-dialog" command="close">No</button>
 </dialog>
 
 </center>
@@ -225,10 +203,49 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
               statdiv.innerHTML = xhr.responseText;
           }
       };
-      xhr.open("GET", "simplecommands.php?cmd=volume&val=" + this.value, true);
+      xhr.open("GET", "simplecommands.php?property=volume&val="
+                    + this.value, true);
       xhr.send();
   }
+
+  var positionSlider = document.getElementById("positionSlider");
+  positionSlider.onchange = function() {
+      // Writing to a file is hard from JS (maybe impossible?)
+      // because of security concerns. But it can load a PHP URL
+      // that can do things like write a command to the mpv player.
+      // (e || window.event).preventDefault();
+
+      var statdiv = document.getElementById("status");
+      statdiv.innerHTML = "Setting position to " + this.value;
+
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(e) {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              //positionSlider.VALUE = xhr.responseText;
+          }
+      };
+      xhr.open("GET", "simplecommands.php?property=percent-pos&val="
+                    + this.value, true);
+      xhr.send();
+  }
+
+  function updatePositionSlider() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(e) {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              var pos = parseInt(xhr.responseText);
+              positionSlider.value = pos;
+          }
+      };
+      xhr.open("GET", "simplecommands.php?property=percent-pos", true);
+      xhr.send();
+  }
+  setInterval(updatePositionSlider, 4000);
+
 </script>
+
+<?php require 'footer.php'; ?>
+
 </body>
 </html>
 
