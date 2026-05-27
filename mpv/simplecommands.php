@@ -1,11 +1,24 @@
 <?php
 
 // A shim that JS can call via AJAX
-// simplecommands.php?cmd=foo&val=bar
+// simplecommands.php?cmd=foo
+// simplecommands.php?property=foo&val=bar
 
 include 'commands.php';
 
-if (isset($_GET['property'])) {
+if (isset($_GET['cmd'])) {
+    if ($_GET['cmd'] == 'poweroff') {
+        error_log("simplecommands: poweroff. First sending quit command ...", 0);
+        echo "Power off";
+        send_mpv_cmd('{ "command": ["quit" ] }');
+        sleep(2);
+        error_log("simplecommands: trying to power off", 0);
+        shell_exec('sudo poweroff"');
+    }
+    else
+        send_mpv_cmd('{ "command": ["' . $_GET['cmd'] . '" ] }');
+}
+else if (isset($_GET['property'])) {
 
     if (isset($_GET['val'])) {
         error_log('cmd = ' . $_GET['property'] . ' and val = ' . $_GET['val'], 0);
@@ -19,6 +32,5 @@ if (isset($_GET['property'])) {
                           . $_GET['property'] . '" ] }');
         echo $val;
     }
-
 }
 ?>

@@ -1,14 +1,18 @@
 
 body {
     font-family: sans-serif;
-    line-height: 2em;
+    font-size: 1.75em;
+    /* line-height: 1.1em; */
     background: white;
 }
 
+/* h1 { font-size: 1.1em; } */
+
 table.controls {
     width: 90%; table-layout: fixed;
-    td { font-size: 2em; background: #eee; text-align: center; height: 3em; }
-    tr.spacer td { background: white !important; }
+    td { font-size: 2em; background: #eee; text-align: center; height: 2em; }
+    tr.spacer td { background: white !important; font-size: .5em; }
+    tr.slider td { height: 1.25em; }
 }
 
 a.browse {
@@ -20,7 +24,7 @@ button { border: 0; }
 .dialog {
     font-size: 2em;
     /* I don't know why button font size doesn't inherit.
-       And making it 2em makes it much bigger than the size of the
+       Or why making it 2em makes it much bigger than the size of the
        link next to it.
      */
     button { font-size: 1.5em; }
@@ -32,3 +36,5 @@ button { border: 0; }
  * since it's misleading when it can't be regularly updated.
  */
 tr.positionSlider { display: none; }
+
+.sliderlabel { font-size: .4em; vertical-align: middle; }

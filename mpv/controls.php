@@ -25,6 +25,7 @@ $curpos = send_mpv_cmd('{ "command": ["get_property", "percent-pos"] }\n');
 error_log('Percent position ' . $curpos, 0);
 
 if (isset($_GET['action'])) {
+    error_log("action: " . $_GET['action'], 0);
     switch ($_GET['action']) {
         case 'pause':
             send_mpv_cmd('{ "command": ["set_property", "pause", true] }');
@@ -93,33 +94,32 @@ if (isset($_GET['action'])) {
             break;
 
         case 'poweroff':
+            error_log("controls poweroff", 0);
+            //header("Location: simplecommands.php?cmd=poweroff");
+
+            // Quit mpv, to make sure it saves the current position
             send_mpv_cmd('{ "command": [ "quit" ] }');
-            shell_exec('sleep 3; sudo poweroff');
+            sleep(2);
+
+            shell_exec('sh -c "sleep 3; sudo poweroff" &');
+
             // Redirect to a page with few images.
             // For some reason, on Android DDG,
             // images disappear after the host shuts down
             // but the rest of the page still displays fine.
+            // However, this doesn't work; it gets a 404
+            // even though the shutdown shouldn't happen until
+            // well after the page is loaded.
             header("Location: index.php");
             break;
     }
 }
 
-$title = 'Media Centre PRO 4000 Extreme Edition';
+include "header.php";
 
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $title; ?></title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
 <center>
-
-<h1><?php echo $title; ?></h1>
 
 <table class="controls">
 <tr>
@@ -139,13 +139,14 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
     <img src="images/skip-forward.svg" width="64" height="64" alt="Forward"></a>
 </tr>
 
-<tr colspan="3" class="positionSlider">
-<td colspan="3">
+<tr class="slider positionSlider">
+<td colspan=3">
+    <span class="sliderlabel">Percent played:</span>
     <input type="range" id="positionSlider" name="positionSlider"
            min="0" max="100" value="<?php echo $curpos ?>"
-           disabled style="width: 85%" />
+           disabled style="width: 75%" />
 
-<tr class="spacer"><td>&nbsp;
+<tr class="spacer"><td colspan=3">&nbsp;
 
 <tr>
 <td><a href="?action=volumedown">
@@ -158,14 +159,16 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
          width="64" height="64" alt="Volume down"></a></td>
 </button>
 
-<tr>
+<tr class="slider">
 <td colspan="3">
+    <img src="images/volume-down.svg"
+         width="25" height="25" alt="Volume down">
     <input type="range" id="volumeSlider" name="volumeSlider" min="0" max="100"
            value="<?php echo $curvol; ?>" disabled style="width: 85%" />
+    <img src="images/volume-up.svg"
+         width="25" height="25" alt="Volume down">
 
 </tr>
-
-<tr class="spacer"><td>&nbsp;</td></tr>
 
 </table>
 
@@ -258,7 +261,7 @@ $title = 'Media Centre PRO 4000 Extreme Edition';
   // Update the position slider regularly, so it keeps track as
   // the video plays. Not so important for the volume slider since
   // it will be updated if the user clicks the volume up/down buttons.
-  setInterval(updatePositionSlider, 4000);
+  setInterval(updatePositionSlider, 9000);
 
 </script>
 

@@ -22,6 +22,9 @@ can remember its position in files. TheJosh's version didn't quite
 work for me, so I got it working, then stashed the working code in
 a subdirectory mplayer when I changed gears to work on the mpv version.
 
+Requires packages: mpv php socat
+On Debian, php pulls in apache2, which seems kind of annoying and unnecessary.
+
 Create a file named mp-remote.ini in the same directory as the
 rest of these files, containing one line:
 

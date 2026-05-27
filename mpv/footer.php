@@ -3,7 +3,7 @@
   <p>Really power off?
 
   &nbsp; &nbsp; &nbsp; &nbsp;
-  <a href="commands.php?action=poweroff">
+  <a href="controls.php?action=poweroff">
      <button commandfor="poweroff-dialog"
              command="close">Yes</button></a>
 
