@@ -164,7 +164,7 @@ include "header.php";
     <img src="images/volume-down.svg"
          width="25" height="25" alt="Volume down">
     <input type="range" id="volumeSlider" name="volumeSlider" min="0" max="100"
-           value="<?php echo $curvol; ?>" disabled style="width: 85%" />
+           value="<?php echo $curvol; ?>" disabled style="width: 75%" />
     <img src="images/volume-up.svg"
          width="25" height="25" alt="Volume down">
 

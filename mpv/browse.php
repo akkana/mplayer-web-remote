@@ -13,7 +13,7 @@ try {
     $filename = null;
 }
 
-$title = 'MPV Remote: ' . basename($viddir);
+$title = basename($viddir) . ' (MPV Remote)';
 
 include "header.php";
 
@@ -37,7 +37,7 @@ foreach (glob($viddir . '/*') as $f) {
 asort($files);
 asort($dirs);
 
-echo '<ul>';
+echo '<ul class="browselist">';
 
 foreach ($dirs as $d) {
     $bn = basename($d);
